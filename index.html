@@ -1,0 +1,827 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday, Kiaan! 🎂</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow-x: hidden;
+        }
+
+        /* ========== GENERAL STYLES ========== */
+        .container {
+            width: 100%;
+            max-width: 100vw;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 1;
+            transition: opacity 0.8s ease-in-out;
+            overflow: hidden;
+        }
+
+        .container.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .screen {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            text-align: center;
+            overflow: hidden;
+        }
+
+        /* ========== SCREEN 1: AGE GAME ========== */
+        #ageGameScreen {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .age-game-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 40px;
+            width: 100%;
+        }
+
+        .age-game-title {
+            font-size: 3rem;
+            font-weight: bold;
+            color: white;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2);
+            animation: slideDown 0.8s ease-out;
+        }
+
+        .age-buttons {
+            display: flex;
+            gap: 30px;
+            justify-content: center;
+            flex-wrap: wrap;
+            width: 100%;
+        }
+
+        .age-button {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            border: 4px solid white;
+            font-size: 3rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            animation: popIn 0.6s ease-out;
+        }
+
+        .age-button:nth-child(1) {
+            animation-delay: 0.2s;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+        }
+
+        .age-button:nth-child(2) {
+            animation-delay: 0.4s;
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+        }
+
+        .age-button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .age-button:active {
+            transform: scale(0.95);
+        }
+
+        .wrong-message {
+            color: white;
+            font-size: 1.5rem;
+            animation: shake 0.5s ease-in-out;
+        }
+
+        /* ========== SCREEN 2: FLASHBACK ========== */
+        #flashbackScreen {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+
+        .flashback-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 30px;
+            width: 100%;
+            height: 100%;
+            padding: 20px;
+        }
+
+        .flashback-title {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: white;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2);
+            margin-top: 20px;
+        }
+
+        .slideshow-container {
+            flex: 1;
+            width: 100%;
+            max-width: 500px;
+            position: relative;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: white;
+        }
+
+        .slide {
+            display: none;
+            width: 100%;
+            height: 100%;
+            position: relative;
+        }
+
+        .slide.active {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            animation: fadeIn 0.8s ease-in-out;
+        }
+
+        .slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .slide-caption {
+            position: absolute;
+            bottom: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+        }
+
+        .slideshow-controls {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            width: 100%;
+        }
+
+        .slideshow-btn {
+            background: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            color: #f5576c;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .slideshow-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .slideshow-btn:active {
+            transform: scale(0.95);
+        }
+
+        .slide-counter {
+            color: white;
+            font-weight: bold;
+            font-size: 1.1rem;
+            text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        /* ========== SCREEN 3: LETTER ========== */
+        #letterScreen {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        }
+
+        .letter-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 30px;
+            width: 100%;
+            max-width: 600px;
+            padding: 30px;
+            height: 100%;
+            overflow-y: auto;
+        }
+
+        .letter-title {
+            font-size: 2rem;
+            font-weight: bold;
+            color: white;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .letter-box {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            text-align: left;
+            line-height: 1.8;
+            color: #333;
+            font-size: 1.1rem;
+            min-height: 200px;
+        }
+
+        .letter-text {
+            position: relative;
+        }
+
+        .letter-text::after {
+            content: '|';
+            animation: blink 0.7s infinite;
+            color: #4facfe;
+        }
+
+        .letter-text.complete::after {
+            content: '';
+            animation: none;
+        }
+
+        .letter-button {
+            background: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            color: #00f2fe;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            margin-top: auto;
+        }
+
+        .letter-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .letter-button:active {
+            transform: scale(0.95);
+        }
+
+        /* ========== SCREEN 4: VOICE NOTE ========== */
+        #voiceScreen {
+            background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+        }
+
+        .voice-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 40px;
+            width: 100%;
+        }
+
+        .voice-message {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: white;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .voice-button {
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            background: white;
+            border: none;
+            cursor: pointer;
+            font-size: 3rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            animation: pulse 2s infinite;
+        }
+
+        .voice-button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .voice-button:active {
+            transform: scale(0.95);
+            animation: none;
+        }
+
+        .voice-label {
+            color: white;
+            font-weight: bold;
+            font-size: 1.2rem;
+            text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        /* ========== FINAL SCREEN: CELEBRATION ========== */
+        #celebrationScreen {
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+        }
+
+        .celebration-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 30px;
+            width: 100%;
+            height: 100%;
+        }
+
+        .celebration-photo {
+            width: 100%;
+            max-width: 400px;
+            height: 300px;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+            margin-top: 30px;
+            animation: scaleUp 0.8s ease-out;
+        }
+
+        .celebration-photo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .celebration-title {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #fff;
+            text-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);
+            animation: popIn 0.8s ease-out;
+        }
+
+        .celebration-subtitle {
+            font-size: 1.5rem;
+            color: white;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .celebration-button {
+            background: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            color: #fed6e3;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            margin-top: auto;
+            margin-bottom: 30px;
+        }
+
+        .celebration-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        /* ========== CONFETTI ========== */
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            background: #ffd700;
+            pointer-events: none;
+            animation: confettiFall 3s linear forwards;
+        }
+
+        /* ========== ANIMATIONS ========== */
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes popIn {
+            from {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @keyframes shake {
+            0%, 100% {
+                transform: translateX(0);
+            }
+            25% {
+                transform: translateX(-10px);
+            }
+            75% {
+                transform: translateX(10px);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes blink {
+            0%, 49% {
+                opacity: 1;
+            }
+            50%, 100% {
+                opacity: 0;
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            }
+            50% {
+                transform: scale(1.05);
+                box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            }
+        }
+
+        @keyframes scaleUp {
+            from {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @keyframes confettiFall {
+            to {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* ========== MOBILE RESPONSIVE ========== */
+        @media (max-width: 768px) {
+            .age-game-title {
+                font-size: 2rem;
+            }
+
+            .age-button {
+                width: 100px;
+                height: 100px;
+                font-size: 2.5rem;
+            }
+
+            .flashback-title {
+                font-size: 1.8rem;
+            }
+
+            .letter-title {
+                font-size: 1.5rem;
+            }
+
+            .letter-box {
+                padding: 20px;
+                font-size: 1rem;
+            }
+
+            .celebration-title {
+                font-size: 2rem;
+            }
+
+            .celebration-photo {
+                max-width: 280px;
+                height: 250px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- SCREEN 1: AGE GAME -->
+    <div id="ageGameScreen" class="container">
+        <div class="screen">
+            <div class="age-game-content">
+                <h1 class="age-game-title">HOW OLD IS KIAAN?</h1>
+                <div class="age-buttons">
+                    <button class="age-button" onclick="checkAge(6)">6</button>
+                    <button class="age-button" onclick="checkAge(5)">5</button>
+                </div>
+                <div id="wrongMessage" class="wrong-message" style="display: none;"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SCREEN 2: FLASHBACK -->
+    <div id="flashbackScreen" class="container hidden">
+        <div class="screen">
+            <div class="flashback-content">
+                <h2 class="flashback-title">A little flashback…</h2>
+                <div class="slideshow-container" id="slideshowContainer">
+                    <div class="slide active">
+                        <img src="photo1.jpg" alt="Memory 1">
+                        <div class="slide-caption">Age 0 - Just arrived! 👶</div>
+                    </div>
+                    <div class="slide">
+                        <img src="photo2.jpg" alt="Memory 2">
+                        <div class="slide-caption">Age 1 - Growing up 🌱</div>
+                    </div>
+                    <div class="slide">
+                        <img src="photo3.jpg" alt="Memory 3">
+                        <div class="slide-caption">Age 1 - Full of smiles 😊</div>
+                    </div>
+                    <div class="slide">
+                        <img src="photo4.jpg" alt="Memory 4">
+                        <div class="slide-caption">Age 2 - Exploring the world 🌍</div>
+                    </div>
+                    <div class="slide">
+                        <img src="photo5.jpg" alt="Memory 5">
+                        <div class="slide-caption">Age 2 - Pure joy 🎈</div>
+                    </div>
+                    <div class="slide">
+                        <img src="photo6.jpg" alt="Memory 6">
+                        <div class="slide-caption">Age 3 - Little adventurer 🚀</div>
+                    </div>
+                    <div class="slide">
+                        <img src="photo7.jpg" alt="Memory 7">
+                        <div class="slide-caption">Age 3 - Every day is fun! 🎨</div>
+                    </div>
+                    <div class="slide">
+                        <img src="photo8.jpg" alt="Memory 8">
+                        <div class="slide-caption">Age 4 - Growing stronger 💪</div>
+                    </div>
+                    <div class="slide">
+                        <img src="photo9.jpg" alt="Memory 9">
+                        <div class="slide-caption">Age 4 - What a character! 🌟</div>
+                    </div>
+                    <div class="slide">
+                        <img src="photo10.jpg" alt="Memory 10">
+                        <div class="slide-caption">Age 5 - Amazing times 🎭</div>
+                    </div>
+                    <div class="slide">
+                        <img src="photo11.jpg" alt="Memory 11">
+                        <div class="slide-caption">Age 5 - Best memories 📸</div>
+                    </div>
+                    <div class="slide">
+                        <img src="photo12.jpg" alt="Memory 12">
+                        <div class="slide-caption">Age 6 - You did it! 🎉</div>
+                    </div>
+                </div>
+                <div class="slideshow-controls">
+                    <button class="slideshow-btn" onclick="previousSlide()">← Previous</button>
+                    <span class="slide-counter"><span id="currentSlide">1</span> / 12</span>
+                    <button class="slideshow-btn" onclick="nextSlide()">Next →</button>
+                </div>
+                <button class="slideshow-btn" onclick="goToLetter()" style="margin-top: 20px; background: white; color: #f5576c;">Continue →</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- SCREEN 3: LETTER -->
+    <div id="letterScreen" class="container hidden">
+        <div class="screen">
+            <div class="letter-content">
+                <h2 class="letter-title">For Kiaan…</h2>
+                <div class="letter-box">
+                    <div id="letterText" class="letter-text"></div>
+                </div>
+                <button class="letter-button" onclick="goToVoice()" style="background: white; color: #00f2fe;">Next →</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- SCREEN 4: VOICE NOTE -->
+    <div id="voiceScreen" class="container hidden">
+        <div class="screen">
+            <div class="voice-content">
+                <p class="voice-message">There's one more thing…</p>
+                <button class="voice-button" onclick="playVoiceNote()" title="Play voice message">🎙️</button>
+                <p class="voice-label">Tap to listen</p>
+                <audio id="voiceAudio" src="voice.mp3" preload="auto"></audio>
+                <button class="slideshow-btn" onclick="goToCelebration()" style="margin-top: auto; margin-bottom: 40px; color: #fa709a;">Ready? Let's celebrate →</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- FINAL SCREEN: CELEBRATION -->
+    <div id="celebrationScreen" class="container hidden">
+        <div class="screen">
+            <div class="celebration-content">
+                <h1 class="celebration-title">HAPPY BIRTHDAY<br>KIAAN! 🎂</h1>
+                <div class="celebration-photo">
+                    <img src="photo12.jpg" alt="Kiaan's special moment">
+                </div>
+                <p class="celebration-subtitle">Wishing you the most magical year ahead! ✨</p>
+                <button class="celebration-button" onclick="location.reload()">Restart</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ========== CONFIGURATION (EDIT HERE) ==========
+        const LETTER_TEXT = `Dear Kiaan,
+
+Today is such a special day because today, YOU are even more special!
+
+Six years have gone by so fast. You've grown into such a kind, smart, and wonderfully funny person. Remember when you were tiny? And now look at you!
+
+You bring so much joy and laughter to everyone around you. Your curiosity, your smile, and your big heart make the world a brighter place.
+
+This year, I hope you have the most amazing adventures. Keep exploring, keep learning, keep being yourself.
+
+You're going to do incredible things, Kiaan. I just know it.
+
+Happy 6th Birthday! 🎉
+
+With all my love,
+Mom & Dad`;
+
+        // ========== GLOBAL VARIABLES ==========
+        let currentSlide = 0;
+        let letterTyped = false;
+        let typeWriterSpeed = 30; // milliseconds per character
+
+        // ========== SCREEN NAVIGATION ==========
+        function showScreen(screenId) {
+            document.querySelectorAll('.container').forEach(el => el.classList.add('hidden'));
+            document.getElementById(screenId).classList.remove('hidden');
+        }
+
+        function checkAge(age) {
+            if (age === 6) {
+                // Correct answer
+                document.querySelector('.age-game-content').innerHTML = `
+                    <h1 class="age-game-title" style="animation: popIn 0.6s ease-out;">🎉 Kiaan turns 6! 🎉</h1>
+                    <p style="color: white; font-size: 1.5rem; text-shadow: 2px 2px 8px rgba(0,0,0,0.2); margin-top: 20px;">What an amazing milestone!</p>
+                `;
+                setTimeout(() => {
+                    showScreen('flashbackScreen');
+                    typewriterLetter();
+                }, 2000);
+            } else {
+                // Wrong answer
+                const wrongMsg = document.getElementById('wrongMessage');
+                wrongMsg.textContent = '🤔 Nope! Try again 😄';
+                wrongMsg.style.display = 'block';
+                setTimeout(() => {
+                    wrongMsg.style.display = 'none';
+                }, 2000);
+            }
+        }
+
+        function goToLetter() {
+            showScreen('letterScreen');
+            if (!letterTyped) {
+                typewriterLetter();
+            }
+        }
+
+        function goToVoice() {
+            showScreen('voiceScreen');
+        }
+
+        function goToCelebration() {
+            showScreen('celebrationScreen');
+            createConfetti();
+        }
+
+        // ========== SLIDESHOW FUNCTIONS ==========
+        function showSlide(n) {
+            const slides = document.querySelectorAll('.slide');
+            if (n >= slides.length) {
+                currentSlide = slides.length - 1;
+            }
+            if (n < 0) {
+                currentSlide = 0;
+            }
+            slides.forEach(slide => slide.classList.remove('active'));
+            slides[currentSlide].classList.add('active');
+            document.getElementById('currentSlide').textContent = currentSlide + 1;
+        }
+
+        function nextSlide() {
+            currentSlide++;
+            showSlide(currentSlide);
+        }
+
+        function previousSlide() {
+            currentSlide--;
+            showSlide(currentSlide);
+        }
+
+        // ========== TYPEWRITER EFFECT ==========
+        function typewriterLetter() {
+            if (letterTyped) return;
+            letterTyped = true;
+
+            const letterTextEl = document.getElementById('letterText');
+            letterTextEl.innerHTML = '';
+            let charIndex = 0;
+
+            function typeChar() {
+                if (charIndex < LETTER_TEXT.length) {
+                    const char = LETTER_TEXT[charIndex];
+                    if (char === '\n') {
+                        letterTextEl.innerHTML += '<br>';
+                    } else {
+                        letterTextEl.innerHTML += char;
+                    }
+                    charIndex++;
+                    setTimeout(typeChar, typeWriterSpeed);
+                } else {
+                    letterTextEl.classList.add('complete');
+                }
+            }
+
+            typeChar();
+        }
+
+        // ========== VOICE NOTE ==========
+        function playVoiceNote() {
+            const audio = document.getElementById('voiceAudio');
+            if (audio.paused) {
+                audio.play().catch(err => {
+                    console.error('Error playing audio:', err);
+                    alert('Could not play voice note. Make sure voice.mp3 is in the same folder as index.html');
+                });
+            } else {
+                audio.pause();
+                audio.currentTime = 0;
+            }
+        }
+
+        // ========== CONFETTI ANIMATION ==========
+        function createConfetti() {
+            const colors = ['#ffd700', '#ff69b4', '#00bfff', '#32cd32', '#ff6347', '#ffa500'];
+
+            for (let i = 0; i < 50; i++) {
+                const confetti = document.createElement('div');
+                confetti.classList.add('confetti');
+                confetti.style.left = Math.random() * 100 + '%';
+                confetti.style.top = Math.random() * 100 - 100 + 'px';
+                confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.opacity = Math.random() * 0.7 + 0.3;
+                confetti.style.width = Math.random() * 8 + 5 + 'px';
+                confetti.style.height = confetti.style.width;
+                confetti.style.borderRadius = Math.random() > 0.5 ? '50%' : '0';
+                confetti.style.animationDuration = Math.random() * 2 + 2.5 + 's';
+                confetti.style.animationDelay = Math.random() * 0.3 + 's';
+                document.body.appendChild(confetti);
+
+                setTimeout(() => confetti.remove(), 5000);
+            }
+        }
+    </script>
+</body>
+</html>
